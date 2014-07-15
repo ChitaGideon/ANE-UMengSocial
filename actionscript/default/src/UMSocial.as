@@ -53,7 +53,7 @@ package
 		{
 		}
 
-		public function share(id:String, shareText:String='', imageUrl:String='', title:String='', type:String='sina'):void
+		public function share(id:String, shareText:String='', imageUrl:String='', title:String='', type:String='sina',shareCallBack:Function=null):void
 		{
 		}
 

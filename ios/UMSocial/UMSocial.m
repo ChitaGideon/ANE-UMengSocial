@@ -72,7 +72,7 @@ FREObject status(FREContext context, void* funcData, uint32_t argc, FREObject ar
     SocialControler* sc = funcData;
     [sc status:status];
 
-    NSLog(@"Called status Function %c, %d", status, statusInt);
+    NSLog(@"Called status Function %d, %d", status, statusInt);
     
     return nil;
 }

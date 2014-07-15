@@ -44,7 +44,7 @@
     
     BOOL isOauth = [UMSocialAccountManager isOauthWithPlatform:platform];
     self.loginPlatform = platform;
-    NSLog(@"isOauth %hhd", isOauth);
+    NSLog(@"isOauth %d", isOauth);
     
     if(isOauth){
         NSDictionary *snsAccountDic = [UMSocialAccountManager socialAccountDictionary];

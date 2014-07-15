@@ -91,10 +91,11 @@ package
 		 * @param title 分享邮件时使用的标题
 		 * @param type 分享的平台类型，默认新浪微博，目前只支持： sina, tencent, qzone, email
 		 */
-		public function share(id:String, shareText:String='', imageUrl:String='', title:String='', type:String='sina'):void
+		public function share(id:String, shareText:String='', imageUrl:String='', title:String='', type:String='sina',shareCallBack:Function=null):void
 		{
 			if (extensionContext)
 				extensionContext.call('share', id, shareText, imageUrl, title, type);
+			sharedOK||=shareCallBack;
 		}
 
 		/**
