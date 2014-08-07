@@ -27,7 +27,6 @@ UMSocial.instance.login('sina', function(result:String){
 
 ```
 
-
 目前支持的功能:
 
 - 直接弹出分享框分享，支持多平台（Android版仅支持分享到新浪微博）
