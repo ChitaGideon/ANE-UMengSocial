@@ -95,7 +95,7 @@ package
 		{
 			if (extensionContext)
 				extensionContext.call('share', id, shareText, imageUrl, title, type);
-			sharedOK||=shareCallBack;
+			sharedOK=shareCallBack||sharedOK;
 		}
 
 		/**

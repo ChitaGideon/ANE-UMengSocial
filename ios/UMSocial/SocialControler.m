@@ -89,26 +89,49 @@
     if(!title)
         title = @"分享给你有意思的儿童安全内容";
 //    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:dataID withTitle:title];
-    [socialData setIdentifier:dataID];
+//    [socialData setIdentifier:dataID];
     [socialData setTitle:title];
     if(text)
         socialData.shareText = text;
     if(imageUrl)
         socialData.shareImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
-    UMSocialControllerService *scs = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
-    scs.socialUIDelegate = self;
-    if ([type  isEqual: @"weixin_friend"]){
-        [[UMSocialControllerService defaultControllerService] setShareText:text shareImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] socialUIDelegate:nil];     //设置分享内容和回调对象
-        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-    }else{
+
+    if ([type rangeOfString: @"weixin"].location != NSNotFound)
+    {
+        if ([type  isEqual: @"weixin_friend"]){
+            type = UMShareToWechatTimeline;
+        
+        
+//        [[UMSocialControllerService defaultControllerService] setShareText:text shareImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] socialUIDelegate:nil];     //设置分享内容和回调对象
+//        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self.window.rootViewController,    [UMSocialControllerService defaultControllerService],YES);
+        }else if ([type isEqual: @"weixin_chat"]){
+            type = UMShareToWechatSession;
+        }
+        [self wechatshare:type shareText:text image:socialData.shareImage];
+    }
+    else{
         if(!type){
             type = UMShareToSina;
         }
+    
+        UMSocialControllerService *scs = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
+        scs.socialUIDelegate = self;
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
         snsPlatform.snsClickHandler(self.window.rootViewController, scs, YES);
     }
 }
 
+-(void) wechatshare:(NSString *)type shareText:(NSString *)text image:(UIImage *)image
+{
+    NSLog(@"image is null?: %d",[image isEqual:NULL]);
+    [UMSocialData defaultData].extConfig.wxMessageType = [image isEqual:NULL] ? UMSocialWXMessageTypeText:UMSocialWXMessageTypeImage;
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:text image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            NSLog(@"分享成功！");
+//        }
+         [self didFinishGetUMSocialDataInViewController:response];
+    }];
+}
 -(void) dataID:(NSString*)dataID shareText:(NSString *)text imageUrl:(NSString *)imageUrl title:(NSString *)title
 {
     [socialData setIdentifier:dataID];
