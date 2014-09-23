@@ -11,6 +11,10 @@ package
 	 */
 	public class UMSocial extends EventDispatcher
 	{
+		public static const TYPE_WEIXIN_FRIEND = "weixin_friend"
+		public static const TYPE_WEIXIN_CHAT = "weixin_chat"
+		public static const TYPE_SINA = "sina"
+			
 		private static var _instance:UMSocial;
 		private static var extensionContext:ExtensionContext;
 		private static const EXTENSION_ID:String="com.pamakids.UMSocial";

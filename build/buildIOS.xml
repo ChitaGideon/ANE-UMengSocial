@@ -29,6 +29,17 @@
 
         <copy file="../temp/ios/build/Release-iphoneos/lib${name}.a" todir="../temp/ios" overwrite="true"/>
         <copy todir="../temp/ios">
+            <fileset dir="../ios/zh-Hant.lproj"/>
+          </copy>
+                  <copy todir="../temp">
+            <fileset dir="../ios/en.lproj"/>
+        </copy>
+
+                <copy todir="../temp">
+            <fileset dir="../ios/zh.lproj"/>
+        </copy>
+
+        <copy todir="../temp/ios">
             <fileset dir="../temp/ios/build/Release-iphoneos/"/>
         </copy>
 

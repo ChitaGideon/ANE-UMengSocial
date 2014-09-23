@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A24D91019D119D600EA46A3 /* Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A24D90F19D119D600EA46A3 /* Platform.m */; };
 		3C70DD7E179C2C6900BDFCEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C70DD7C179C2C5D00BDFCEC /* CoreGraphics.framework */; };
 		3C70DD7F179C2C6900BDFCEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C70DD7A179C2C5700BDFCEC /* UIKit.framework */; };
 		3C70DD80179C2C6900BDFCEC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C70DD78179C2C5100BDFCEC /* CoreLocation.framework */; };
@@ -75,6 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A24D90E19D119D600EA46A3 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		3A24D90F19D119D600EA46A3 /* Platform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Platform.m; sourceTree = "<group>"; };
 		3C70DD72179C2C3B00BDFCEC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3C70DD74179C2C4100BDFCEC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3C70DD76179C2C4900BDFCEC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -242,6 +245,8 @@
 				3C7AE6041797E4E10073E93E /* Supporting Files */,
 				3C8A044618D01002003AB72C /* Login.h */,
 				3C8A044718D01002003AB72C /* Login.m */,
+				3A24D90E19D119D600EA46A3 /* Platform.h */,
+				3A24D90F19D119D600EA46A3 /* Platform.m */,
 			);
 			path = UMSocial;
 			sourceTree = "<group>";
@@ -554,6 +559,7 @@
 			files = (
 				3C7AE6091797E4E10073E93E /* UMSocial.m in Sources */,
 				3C7AE6591797EA9A0073E93E /* SocialControler.m in Sources */,
+				3A24D91019D119D600EA46A3 /* Platform.m in Sources */,
 				3C8A044818D01002003AB72C /* Login.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

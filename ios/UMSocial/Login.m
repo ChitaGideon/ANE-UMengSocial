@@ -22,6 +22,7 @@
 @synthesize window = _window;
 @synthesize loginPlatform = _loginPlatform;
 
+ 
 -(void) cancelLogin:(NSString *)platform
 {
     NSLog(@"to cancel login 2 %@ ", platform);

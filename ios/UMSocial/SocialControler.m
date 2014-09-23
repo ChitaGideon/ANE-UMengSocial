@@ -37,7 +37,7 @@
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
     [UMSocialConfig setSnsPlatformNames:@[UMShareToSina,UMShareToTencent,UMShareToQzone,UMShareToEmail]];
     [UMSocialConfig setSupportSinaSSO:NO];
-    socialData = [[UMSocialData alloc] initWithIdentifier:@"share"];
+    socialData = [UMSocialData defaultData];//[[UMSocialData alloc] initWithIdentifier:@"share"];
     return self;
 }
 
@@ -87,10 +87,11 @@
 -(void) share:(NSString*)dataID shareText:(NSString *)text imageUrl:(NSString *)imageUrl title:(NSString *)title type:(NSString *)type
 {
     if(!title)
-        title = @"分享给你有意思的儿童安全内容";
+        title = @"";
 //    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:dataID withTitle:title];
 //    [socialData setIdentifier:dataID];
-    [socialData setTitle:title];
+    socialData.title = title;
+    socialData.extConfig.title = title;
     if(text)
         socialData.shareText = text;
     if(imageUrl)
@@ -107,13 +108,14 @@
         }else if ([type isEqual: @"weixin_chat"]){
             type = UMShareToWechatSession;
         }
-        [self wechatshare:type shareText:text image:socialData.shareImage];
+        [self wechatshare:type shareText:text title:title image:socialData.shareImage];
     }
     else{
         if(!type){
             type = UMShareToSina;
         }
     
+        NSLog(@"share  %@",socialData.title);
         UMSocialControllerService *scs = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
         scs.socialUIDelegate = self;
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
@@ -121,7 +123,7 @@
     }
 }
 
--(void) wechatshare:(NSString *)type shareText:(NSString *)text image:(UIImage *)image
+-(void) wechatshare:(NSString *)type shareText:(NSString *)text title:(NSString *)title image:(UIImage *)image
 {
     NSLog(@"image is null?: %d",[image isEqual:NULL]);
     [UMSocialData defaultData].extConfig.wxMessageType = [image isEqual:NULL] ? UMSocialWXMessageTypeText:UMSocialWXMessageTypeImage;
