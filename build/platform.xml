@@ -1,9 +1,22 @@
-<platform xmlns="http://ns.adobe.com/air/extension/3.1">
-    <sdkVersion>6.0</sdkVersion>
+<platform xmlns="http://ns.adobe.com/air/extension/4.0">
+    <sdkVersion>8.0</sdkVersion>
     <linkerOptions>
-        <option>-weak_framework Accounts</option> 
+        <option>-weak_framework Accounts</option>
         <option>-weak_framework AdSupport</option>
         <option>-weak_framework Social</option>
-        <option>-ios_version_min 4.3</option>
-    </linkerOptions> 
+        <option>-weak_framework Security</option>
+        <option>-weak_framework SystemConfiguration</option>
+        <option>-weak_framework CoreGraphics</option>
+        <option>-weak_framework CoreTelephony</option>
+        <option>-weak_framework Social</option>
+        <option>-liconv</option>
+        <option>-lsqlite3</option>
+        <option>-lstdc++</option>
+        <option>-lz</option>
+      </linkerOptions>
+
+      <packagedDependencies>
+        <packagedDependency>TencentOpenAPI/TencentOpenAPI.framework</packagedDependency>
+        <packagedDependency>TencentOpenAPI/libSocialQQ.a</packagedDependency>
+      </packagedDependencies>
 </platform>

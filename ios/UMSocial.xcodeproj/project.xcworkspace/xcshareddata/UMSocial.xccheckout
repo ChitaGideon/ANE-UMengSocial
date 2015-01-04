@@ -10,29 +10,29 @@
 	<string>UMSocial</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F699BA9C-2894-4085-BDED-3C5320C17FE6</key>
+		<key>01C7FA883E20D6CD495D24A00C2F799668A4BD58</key>
 		<string>https://github.com/ChitaGideon/ANE-UMengSocial.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ios/UMSocial.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F699BA9C-2894-4085-BDED-3C5320C17FE6</key>
+		<key>01C7FA883E20D6CD495D24A00C2F799668A4BD58</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/ChitaGideon/ANE-UMengSocial.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F699BA9C-2894-4085-BDED-3C5320C17FE6</string>
+	<string>01C7FA883E20D6CD495D24A00C2F799668A4BD58</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F699BA9C-2894-4085-BDED-3C5320C17FE6</string>
+			<string>01C7FA883E20D6CD495D24A00C2F799668A4BD58</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ANE-UMengSocial</string>
 		</dict>

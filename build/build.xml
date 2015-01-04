@@ -176,6 +176,7 @@
             <arg line="-platform iPhone-x86 -C ios-simulator/ ."/>
             <arg line="-platform Android-ARM -C android/ ."/>
             <arg line="-platform default -C default/ ."/>
+            <arg line="-platformsdk ${ios.sdk}"/>
         </exec>
 
         <!-- <zip destfile="../temp/${name}.ane" update="true">

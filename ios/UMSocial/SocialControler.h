@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FlashRuntimeExtensions.h"
 #import "UMSocialSnsService.h"
-#import "UMSocialBarViewController.h"
+#import "UMSocialControllerService.h"
 #import "UMSocialBar.h"
 
 @interface SocialControler : UIViewController
@@ -24,7 +24,7 @@ UMSocialUIDelegate
 @property ( nonatomic, assign ) FREContext      *freContext;
 @property (strong, nonatomic) UIWindow *window;
 
--(void) initBar;
+//-(void) initBar;
 -(void) status:(BOOL)visible;
 -(void) dataID:(NSString*)dataID shareText:(NSString*)text imageUrl:(NSString*) imageUrl title:(NSString*) title;
 -(void) share:(NSString*)dataID shareText:(NSString*)text imageUrl:(NSString*) imageUrl title:(NSString*) title type:(NSString*) type;

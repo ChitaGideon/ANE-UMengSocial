@@ -7,10 +7,8 @@
 //
 
 #import "SocialControler.h"
-#import "UMSocialBarViewController.h"
 #import "UMSocialConfig.h"
 #import "UMSocialData.h"
-#import "UMSocialTabBarController.h"
 #import "UMSocialSnsService.h"
 #import "UMSocialData.h"
 #import "UMSocialConfig.h"
@@ -36,14 +34,14 @@
     [UMSocialData openLog:NO];
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
     [UMSocialConfig setSnsPlatformNames:@[UMShareToSina,UMShareToTencent,UMShareToQzone,UMShareToEmail]];
-    [UMSocialConfig setSupportSinaSSO:NO];
+    //    [UMSocialConfig setSupportSinaSSO:NO];
     socialData = [UMSocialData defaultData];//[[UMSocialData alloc] initWithIdentifier:@"share"];
     return self;
 }
 
 //-(void) initBar
 //{
-//    
+//
 //    UIViewController *uic = self.window.rootViewController;
 //    [uic addChildViewController:self];
 //    [uic.view addSubview:self.view];
@@ -74,13 +72,13 @@
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    UITouch* any_touch = [touches anyObject];
-//    float radius = [[any_touch valueForKey:@"pathMajorRadius"] floatValue];
+    //    UITouch* any_touch = [touches anyObject];
+    //    float radius = [[any_touch valueForKey:@"pathMajorRadius"] floatValue];
     if(_socialBar)
     {
         CGRect rect = _socialBar.frame;
         NSLog(@"Frame: %f, %f, %f, %f",rect.size.width, rect.size.height, rect.origin.x, rect.origin.y);
-//        [self.view setFrame:rect];
+        //        [self.view setFrame:rect];
     }
 }
 
@@ -88,33 +86,28 @@
 {
     if(!title)
         title = @"";
-//    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:dataID withTitle:title];
-//    [socialData setIdentifier:dataID];
+    //    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:dataID withTitle:title];
+    //    [socialData setIdentifier:dataID];
     socialData.title = title;
     socialData.extConfig.title = title;
     if(text)
         socialData.shareText = text;
     if(imageUrl)
         socialData.shareImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
-
-    if ([type rangeOfString: @"weixin"].location != NSNotFound)
-    {
-        if ([type  isEqual: @"weixin_friend"]){
-            type = UMShareToWechatTimeline;
-        
-        
-//        [[UMSocialControllerService defaultControllerService] setShareText:text shareImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] socialUIDelegate:nil];     //设置分享内容和回调对象
-//        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self.window.rootViewController,    [UMSocialControllerService defaultControllerService],YES);
-        }else if ([type isEqual: @"weixin_chat"]){
-            type = UMShareToWechatSession;
-        }
+    
+    
+    if ([type  isEqual: UMShareToWechatTimeline]||[type  isEqual: UMShareToWechatSession]){
         [self wechatshare:type shareText:text title:title image:socialData.shareImage];
+        
+        //        [[UMSocialControllerService defaultControllerService] setShareText:text shareImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] socialUIDelegate:nil];     //设置分享内容和回调对象
+        //        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self.window.rootViewController,    [UMSocialControllerService defaultControllerService],YES);
     }
+    
     else{
         if(!type){
             type = UMShareToSina;
         }
-    
+        
         NSLog(@"share  %@",socialData.title);
         UMSocialControllerService *scs = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
         scs.socialUIDelegate = self;
@@ -128,10 +121,10 @@
     NSLog(@"image is null?: %d",[image isEqual:NULL]);
     [UMSocialData defaultData].extConfig.wxMessageType = [image isEqual:NULL] ? UMSocialWXMessageTypeText:UMSocialWXMessageTypeImage;
     [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:text image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
-//        if (response.responseCode == UMSResponseCodeSuccess) {
-//            NSLog(@"分享成功！");
-//        }
-         [self didFinishGetUMSocialDataInViewController:response];
+        //        if (response.responseCode == UMSResponseCodeSuccess) {
+        //            NSLog(@"分享成功！");
+        //        }
+        [self didFinishGetUMSocialDataInViewController:response];
     }];
 }
 -(void) dataID:(NSString*)dataID shareText:(NSString *)text imageUrl:(NSString *)imageUrl title:(NSString *)title
@@ -143,8 +136,8 @@
     if(imageUrl)
         socialData.shareImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
     if(title)
-        socialData.title = title;    
-//    [_socialBar setSocialData:socialData];
+        socialData.title = title;
+    //    [_socialBar setSocialData:socialData];
     _socialBar.socialData = socialData;
     [_socialBar updateButtonNumber];
     _socialBar.hidden = NO;
@@ -155,28 +148,18 @@
 {
     [UMSocialSnsService  applicationDidBecomeActive];
 }
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
-}
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
-}
 
 -(void) didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
 {
+    NSLog(@"didFinishGetUMSocialDataInViewController  %@   code: %d",response,response.responseCode);
     //根据`responseCode`得到发送结果,如果分享成功
     if(response.responseCode == UMSResponseCodeSuccess)
     {
         //得到分享到的微博平台名
         NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
-    }
-    if(response.responseCode == 200)
         FREDispatchStatusEventAsync(self.freContext, shared, (uint8_t*)ok);
+    }
+    
 }
 
 @end

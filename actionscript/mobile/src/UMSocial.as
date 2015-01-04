@@ -3,6 +3,8 @@ package
 	import flash.events.EventDispatcher;
 	import flash.events.StatusEvent;
 	import flash.external.ExtensionContext;
+	import flash.system.Capabilities;
+	import flash.utils.getTimer;
 
 
 	/**
@@ -11,14 +13,27 @@ package
 	 */
 	public class UMSocial extends EventDispatcher
 	{
-		public static const TYPE_WEIXIN_FRIEND = "weixin_friend"
-		public static const TYPE_WEIXIN_CHAT = "weixin_chat"
+		// UMShareToSina, UMShareToTencent, UMShareToRenren, UMShareToDouban , UMShareToQzone  , UMShareToEmail  , UMShareToSms  , UMShareToWechatSession  , UMShareToWechatTimeline  ,UMShareToWechatFavorite  , UMShareToQQ  , UMShareToFacebook  , UMShareToTwitter  , UMShareToYXSession  , UMShareToYXTimeline  , UMShareToLWSession , UMShareToLWTimeline  ,UMShareToInstagram  , UMShareToWhatsapp  , UMShareToLine  , UMShareToTumblr  , UMShareToPinterest  , UMShareToKakaoTalk  , UMShareToFlickr  
+		// sina  tencent  renren  douban  qzone  email  sms  wxsession  wxtimeline  wxfavorite  qq  facebook  twitter  yixin  yixin_circle  laiwang  laiwang_dynamic  instagram  whatsapp  line  tumblr  pinterest  kakaotalk flickr  
+		public static const TYPE_WEIXIN_FRIEND = "wxtimeline"
+		public static const TYPE_WEIXIN_CHAT = "wxsession"
+		public static const TYPE_QQ= 'qq'
+		public static const TYPE_QZONE= 'qzone'
 		public static const TYPE_SINA = "sina"
 			
 		private static var _instance:UMSocial;
 		private static var extensionContext:ExtensionContext;
 		private static const EXTENSION_ID:String="com.pamakids.UMSocial";
 
+		public function get isPushNotificationSupported():Boolean
+		{
+			var result:Boolean = (Capabilities.manufacturer.search('iOS') > -1 || Capabilities.manufacturer.search('Android') > -1);
+			return result;
+		}
+		public function get isSupport():Boolean
+		{
+			return extensionContext&&isPushNotificationSupported
+		}
 //		UMSResponseCodeSuccess            = 200,        //成功
 //			UMSResponseCodeBaned              = 505,        //用户被封禁
 //			UMSResponseCodeShareRepeated      = 5016,       //分享内容重复
@@ -45,6 +60,8 @@ package
 		public static var sharedOK:Function;
 
 		public static var keepCallback:Function;
+		
+		public static const callbackObj:Object={};
 
 		protected static function onStatus(event:StatusEvent):void
 		{
@@ -55,13 +72,29 @@ package
 			else if(event.code == 'CancelAuthResult' && keepCallback != null)
 				keepCallback(event.level);
 			trace(event.code, event.level);
+			var func:Function = callbackObj[event.code];
+			if(func)
+			{
+				func(event.level);
+			}
 			keepCallback = null;
 		}
 
-		public function init(appkey:String="", weixinID:String="", weixinURL:String=""):void
+		public function init(appkey:String="", bugLog:Boolean=false):void
 		{
-			if (extensionContext)
-				extensionContext.call('init', appkey, weixinID, weixinURL);
+			if (isSupport)
+				extensionContext.call('init', appkey, bugLog);
+		}
+		
+		public function initWeChat(wxappid:String="", appSecret:String="", weixinURL:String=""):void
+		{
+			if (isSupport)
+				extensionContext.call('initWeChat', wxappid, appSecret, weixinURL);
+		}
+		public function initQQ(appid:String="", appkey:String="", url:String=""):void
+		{
+			if (isSupport)
+				extensionContext.call('initQQ', appid, appkey, url);
 		}
 
 		/**
@@ -70,7 +103,7 @@ package
 		 */
 		public function status(visible:Boolean):void
 		{
-			if (extensionContext)
+			if (isSupport)
 				extensionContext.call('status', visible ? 1 : 0);
 		}
 
@@ -83,8 +116,15 @@ package
 		 */
 		public function dataID(id:String, shareText:String='', imageUrl:String='', title:String=''):void
 		{
-			if (extensionContext)
+			if (isSupport)
 				extensionContext.call('dataID', id, shareText, imageUrl, title);
+		}
+		
+		public function setAccountInfo(platform:String, usid:String='', accessToken:String='', openId:String='',callback:Function=null):void
+		{
+			keepCallback = callback
+			if (isSupport)
+				extensionContext.call('setAccountInfo', platform, usid, accessToken, openId);
 		}
 
 		/**
@@ -97,7 +137,7 @@ package
 		 */
 		public function share(id:String, shareText:String='', imageUrl:String='', title:String='', type:String='sina',shareCallBack:Function=null):void
 		{
-			if (extensionContext)
+			if (isSupport)
 				extensionContext.call('share', id, shareText, imageUrl, title, type);
 			sharedOK=shareCallBack||sharedOK;
 		}
@@ -110,15 +150,43 @@ package
 		public function login(platform:String, callback:Function):void
 		{
 			keepCallback = callback;
-			if (extensionContext)
+			if (isSupport)
 				extensionContext.call('login', platform);
+		}
+		public function isoAuth(platform:String):Boolean
+		{
+			if (isSupport)
+				return extensionContext.call('isoAuth', platform);
+			return false;
+		}
+		public function unOauth(platform:String, callback:Function):void
+		{
+			var token:String = getTimer()+""
+			callbackObj[token]=callback
+			if (isSupport)
+				extensionContext.call('unOauth', platform,token);
+		}
+		public function getSnsInformation(platform:String, callback:Function):void
+		{
+			var token:String = getTimer()+""
+			callbackObj[token]=callback
+			if (isSupport)
+				extensionContext.call('getSnsInformation', platform,token);
 		}
 
 		public function cancelLogin(platform:String, callback:Function):void
 		{
-			keepCallback = callback;
-			if (extensionContext)
-				extensionContext.call('cancelLogin', platform);
+			var token:String = getTimer()+""
+			callbackObj[token]=callback
+			if (isSupport)
+				extensionContext.call('cancelLogin', platform,token);
+		}
+		public function unBindUm(callback:Function):void
+		{
+			var token:String = getTimer()+""
+			callbackObj[token]=callback
+			if (isSupport)
+				extensionContext.call('unBindUm',token);
 		}
 	}
 }

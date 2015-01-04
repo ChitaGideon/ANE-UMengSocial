@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "FlashRuntimeExtensions.h"
 #import "UMSocialSnsService.h"
-#import "UMSocialBarViewController.h"
+#import "UMSocialControllerService.h"
+#import "JSONKit.h"
 
 @interface Login : UIViewController
 <
@@ -23,4 +25,10 @@ UMSocialUIDelegate
 -(void) doLogin:(NSString*) platform;
 
 -(void) cancelLogin:(NSString*) platform;
+-(void) unOAuth:(NSString *)platform token:(NSString *)token;
+-(BOOL) isOauth:(NSString *)platform;
+-(void) getUserInformation:(NSString *)platform token:(NSString *)token;
+
+-(void) setAcountInfo:(NSString*)platform usid:(NSString*)usid accessToken:(NSString*)accessToken openId:(NSString*)openId;
+-(void)cancelUm:(NSString *)token;
 @end
