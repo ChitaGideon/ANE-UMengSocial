@@ -86,6 +86,9 @@
 {
     if(!title)
         title = @"";
+    NSLog(@"share dataId %d ,%d",([dataID intValue]),[UMSocialData defaultData].extConfig.wxMessageType);
+//    [UMSocialData defaultData].extConfig.wxMessageType = ([dataID intValue]);
+//    NSLog(@"UMSocialData defaultData].extConfig.wxMessageTyp  %d", [UMSocialData defaultData].extConfig.wxMessageType==4);
     //    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:dataID withTitle:title];
     //    [socialData setIdentifier:dataID];
     socialData.title = title;
@@ -96,11 +99,19 @@
         socialData.shareImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
     
     
-    if ([type  isEqual: UMShareToWechatTimeline]||[type  isEqual: UMShareToWechatSession]){
+    if ([type  isEqual: UMShareToWechatTimeline]){
+        [UMSocialData defaultData].extConfig.wechatTimelineData.url = dataID;
         [self wechatshare:type shareText:text title:title image:socialData.shareImage];
+       
         
         //        [[UMSocialControllerService defaultControllerService] setShareText:text shareImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]] socialUIDelegate:nil];     //设置分享内容和回调对象
         //        [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline].snsClickHandler(self.window.rootViewController,    [UMSocialControllerService defaultControllerService],YES);
+    }
+    else if([type  isEqual: UMShareToWechatSession])
+    {
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = dataID;
+        [self wechatshare:type shareText:text title:title image:socialData.shareImage];
+
     }
     
     else{
@@ -118,11 +129,28 @@
 
 -(void) wechatshare:(NSString *)type shareText:(NSString *)text title:(NSString *)title image:(UIImage *)image
 {
-    NSLog(@"image is null?: %d",[image isEqual:NULL]);
-    [UMSocialData defaultData].extConfig.wxMessageType = [image isEqual:NULL] ? UMSocialWXMessageTypeText:UMSocialWXMessageTypeImage;
-    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:text image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+//    NSLog(@"image is null?: %d  %@",[image isEqual:NULL],@([@"42" intValue]));
+//    if([text isEqual:NULL])
+//    {
+//        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+//    }
+//    else
+//    {
+//        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeText;
+//
+//    }
+
+    NSLog(@"UMSocialData defaultData].extConfig.wxMessageTyp  %d", [UMSocialData defaultData].extConfig.wxMessageType==4);
+    UMSocialUrlResource * urlResource = nil;
+    if([title isEqual:NULL]
+       && [UMSocialData defaultData].extConfig.wxMessageType==4)
+    {
+//        urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:title];
+        [UMSocialData defaultData].extConfig.wechatSessionData.url = title;
+    }
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[type] content:text image:image location:nil urlResource:urlResource presentedController:self completion:^(UMSocialResponseEntity *response){
         //        if (response.responseCode == UMSResponseCodeSuccess) {
-        //            NSLog(@"分享成功！");
+                    NSLog(@"分享成功！");
         //        }
         [self didFinishGetUMSocialDataInViewController:response];
     }];

@@ -192,7 +192,7 @@
             <arg line="-platform iPhone-ARM -platformoptions ../build/platform.xml ${libs} -C ios/ ."/>
             <!-- <arg line="-platform iPhone-x86 -C ios-simulator/ ."/> -->
             <!-- <arg line="-platform Android-ARM -C android/ ."/> -->
-            <arg line="-platform default -C default/ ."/>
+            <arg line="-platform default  -C default/ ."/>
         </exec>
 
         <!-- <zip destfile="../temp/${name}.ane" update="true">
@@ -203,7 +203,8 @@
             </zipfileset>
         </zip> -->
 
-        <move file="../temp/${name}IOS.ane" todir="../bin"/>
+        <move file="../temp/${name}IOS.ane" todir="../bin"/> 
+        <copy file="../bin/${name}IOS.ane" todir="/Users/Pamakids-Dev/ane/" overwrite="true"/>
         <delete dir="../temp"/>
     </target>
 

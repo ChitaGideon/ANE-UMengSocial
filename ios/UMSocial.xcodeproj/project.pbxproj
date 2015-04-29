@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A5A9BCB19DD2CD900B228CC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A9BCA19DD2CD900B228CC /* JSONKit.m */; };
+		3A6969241AF081A400236AF9 /* libSocialQQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9CF6D81A1B32BF00CF7D80 /* libSocialQQ.a */; };
+		3A6969261AF0ACAC00236AF9 /* UMSocialUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6969251AF0ACAC00236AF9 /* UMSocialUtils.m */; };
 		3A9CF6E21A1B32BF00CF7D80 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A9CF6BC1A1B32BF00CF7D80 /* UMSocialLocalizable.strings */; };
 		3A9CF6E31A1B32BF00CF7D80 /* libUMSocial_Sdk_4.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9CF6CA1A1B32BF00CF7D80 /* libUMSocial_Sdk_4.2.a */; };
 		3A9CF6E41A1B32BF00CF7D80 /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9CF6CC1A1B32BF00CF7D80 /* UMSCommentDetailController.xib */; };
@@ -77,6 +79,8 @@
 /* Begin PBXFileReference section */
 		3A5A9BCA19DD2CD900B228CC /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		3A5A9BCC19DD2CF300B228CC /* JSONKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		3A6969251AF0ACAC00236AF9 /* UMSocialUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMSocialUtils.m; sourceTree = "<group>"; };
+		3A6969271AF0AD6500236AF9 /* UMSocialUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialUtils.h; sourceTree = "<group>"; };
 		3A9CF6BD1A1B32BF00CF7D80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		3A9CF6BF1A1B32BF00CF7D80 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		3A9CF6C01A1B32BF00CF7D80 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -171,6 +175,7 @@
 				3AD047611A19F90F0077AA81 /* libsqlite3.0.dylib in Frameworks */,
 				3C70DD7E179C2C6900BDFCEC /* CoreGraphics.framework in Frameworks */,
 				3AD0475F1A19F8FE0077AA81 /* SystemConfiguration.framework in Frameworks */,
+				3A6969241AF081A400236AF9 /* libSocialQQ.a in Frameworks */,
 				3AD0475D1A19F8F30077AA81 /* libiconv.dylib in Frameworks */,
 				3AD0475B1A19F8E20077AA81 /* Security.framework in Frameworks */,
 				3C70DD7F179C2C6900BDFCEC /* UIKit.framework in Frameworks */,
@@ -317,6 +322,8 @@
 				3C8A044718D01002003AB72C /* Login.m */,
 				3A5A9BCA19DD2CD900B228CC /* JSONKit.m */,
 				3A5A9BCC19DD2CF300B228CC /* JSONKit.h */,
+				3A6969251AF0ACAC00236AF9 /* UMSocialUtils.m */,
+				3A6969271AF0AD6500236AF9 /* UMSocialUtils.h */,
 			);
 			path = UMSocial;
 			sourceTree = "<group>";
@@ -457,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A6969261AF0ACAC00236AF9 /* UMSocialUtils.m in Sources */,
 				3C7AE6091797E4E10073E93E /* UMSocial.m in Sources */,
 				3C7AE6591797EA9A0073E93E /* SocialControler.m in Sources */,
 				3A5A9BCB19DD2CD900B228CC /* JSONKit.m in Sources */,
@@ -513,7 +521,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -537,7 +545,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -591,6 +599,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Debug;
 		};
@@ -644,6 +653,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Release;
 		};

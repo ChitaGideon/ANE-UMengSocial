@@ -13,7 +13,8 @@
 #import "UMSocialData.h"
 #import "UMSocialConfig.h"
 #import "UMSocialWechatHandler.h"
- #import "UMSocialQQHandler.h"
+#import "UMSocialQQHandler.h"
+#import "WXApi.h"
 
 @implementation UMSocial
 
@@ -113,6 +114,43 @@ FREObject initQQ(FREContext context, void* funcData, uint32_t argc, FREObject ar
     return nil;
 }
 
+FREObject isInstall(FREContext context, void* funcData, uint32_t argc, FREObject argv[]){
+    
+    const uint8_t* token;
+    uint32_t tokenLength;
+    NSString *platform = nil;
+    
+    if(argv[0] && (FREGetObjectAsUTF8(argv[0], &tokenLength, &token) == FRE_OK)){
+        platform = [NSString stringWithUTF8String:(char*)token];
+    }
+    NSLog(@"Call isInstall Function %@  ",platform);
+
+//    Login* lc = [[Login alloc] init];
+//    lc.freContext = context;
+//    lc.window = funcData;
+//    
+//    [lc cancelUm:tokenString];
+    uint32_t boolvalue ;
+    if([platform isEqual:UMShareToQQ])
+    {
+        boolvalue = [QQApiInterface isQQInstalled];
+    }
+    else if([platform isEqual:UMShareToWechatFavorite] || [platform isEqual:UMShareToWechatSession] ||[platform isEqual:UMShareToWechatTimeline])
+    {
+        boolvalue = [WXApi isWXAppInstalled];
+    }
+    else {
+        boolvalue = NO;
+    }
+//    NSLog(@"boolvalue: %d    %d   %d",boolvalue,[QQApi isQQInstalled],[WXApi isWXAppInstalled]);
+    
+    
+    FREObject retBool = nil;
+    FRENewObjectFromBool(boolvalue, &retBool);
+    
+    return retBool;
+
+}
 FREObject status(FREContext context, void* funcData, uint32_t argc, FREObject argv[]){
     NSLog(@"Call status Function");
     
@@ -228,7 +266,7 @@ FREObject cancelUM(FREContext context, void* funcData, uint32_t argc, FREObject 
     uint32_t tokenLength;
     NSString *tokenString = nil;
     
-    if(argv[0] && (FREGetObjectAsUTF8(argv[1], &tokenLength, &token) == FRE_OK)){
+    if(argv[0] && (FREGetObjectAsUTF8(argv[0], &tokenLength, &token) == FRE_OK)){
         tokenString = [NSString stringWithUTF8String:(char*)token];
     }
     Login* lc = [[Login alloc] init];
@@ -436,7 +474,7 @@ void AirUMSocialContextInitializer(void* extData, const uint8_t* ctxType, FRECon
     object_setClass(delegate, modDelegate);
     
     
-    uint numOfFun = 13;
+    uint numOfFun = 14;
     
     FRENamedFunction* func = (FRENamedFunction*) malloc(sizeof(FRENamedFunction) * numOfFun);
     *numFunctionsToTest = numOfFun;
@@ -505,12 +543,26 @@ void AirUMSocialContextInitializer(void* extData, const uint8_t* ctxType, FRECon
     func[12].name =(const uint8_t*) "unBindUm";
     func[12].functionData = win;
     func[12].function = &cancelUM;
+    
+    func[13].name =(const uint8_t*) "isInstalled";
+    func[13].functionData = win;
+    func[13].function = &isInstall;
 
     
     
     *functionsToSet = func;
     
     NSLog(@"Inited");
+    NSLog(@"WXMessageType  %d %d %d %d %d %d %d %d %d",UMSocialWXMessageTypeNone,
+          UMSocialWXMessageTypeText,      //微信消息文本类型
+          UMSocialWXMessageTypeImage,     //微信消息图片类型
+          UMSocialWXMessageTypeApp,       //微信消息应用类型
+          UMSocialWXMessageTypeWeb,       //微信消息网页类型
+          UMSocialWXMessageTypeMusic,     //微信消息音乐类型
+          UMSocialWXMessageTypeVideo,     //微信消息视频类型
+          UMSocialWXMessageTypeEmotion,   //微信消息表情类型
+          UMSocialWXMessageTypeOther      //微信消息其他多媒体类型
+          );
     NSLog(@"%@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@  %@ %@  ",UMShareToSina, UMShareToTencent, UMShareToRenren, UMShareToDouban , UMShareToQzone  , UMShareToEmail  , UMShareToSms  , UMShareToWechatSession  , UMShareToWechatTimeline  ,UMShareToWechatFavorite  , UMShareToQQ  , UMShareToFacebook  , UMShareToTwitter  , UMShareToYXSession  , UMShareToYXTimeline  , UMShareToLWSession , UMShareToLWTimeline  ,UMShareToInstagram  , UMShareToWhatsapp  , UMShareToLine  , UMShareToTumblr  , UMShareToPinterest  , UMShareToKakaoTalk  , UMShareToFlickr);
 }
 

@@ -17,6 +17,5 @@
 
       <packagedDependencies>
         <packagedDependency>TencentOpenAPI/TencentOpenAPI.framework</packagedDependency>
-        <packagedDependency>TencentOpenAPI/libSocialQQ.a</packagedDependency>
       </packagedDependencies>
 </platform>

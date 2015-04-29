@@ -21,6 +21,15 @@ package
 		public static const TYPE_QZONE= 'qzone'
 		public static const TYPE_SINA = "sina"
 			
+		public static const WXMessageTypeNone="0"
+		public static const WXMessageTypeText="1"     //微信消息文本类型
+		public static const WXMessageTypeImage="2"     //微信消息图片类型
+		public static const WXMessageTypeApp="3"       //微信消息应用类型
+		public static const WXMessageTypeWeb="4"      //微信消息网页类型
+		public static const WXMessageTypeMusic="5"     //微信消息音乐类型
+		public static const WXMessageTypeVideo="6"     //微信消息视频类型
+		public static const WXMessageTypeEmotion="7"   //微信消息表情类型
+		public static const WXMessageTypeOther="8"      //微信消息其他多媒体类型
 		private static var _instance:UMSocial;
 		private static var extensionContext:ExtensionContext;
 		private static const EXTENSION_ID:String="com.pamakids.UMSocial";
@@ -187,6 +196,13 @@ package
 			callbackObj[token]=callback
 			if (isSupport)
 				extensionContext.call('unBindUm',token);
+		}
+		public function isInstalled(platform:String):Boolean
+		{
+			if (isSupport)
+		    	return extensionContext.call('isInstalled',platform);
+			else
+				return false
 		}
 	}
 }
